@@ -1,0 +1,38 @@
+ 
+CREATE DATABASE alumni_db; 
+ 
+CREATE TABLE users ( 
+id INT AUTO_INCREMENT PRIMARY KEY, 
+username VARCHAR(50), 
+password VARCHAR(255), 
+nama_lengkap VARCHAR(100), 
+role ENUM('admin','user') 
+); 
+ 
+CREATE TABLE alumni ( 
+id INT AUTO_INCREMENT PRIMARY KEY, 
+nama VARCHAR(100), 
+angkatan YEAR, 
+jurusan VARCHAR(100) 
+); 
+
+/* kode koneksi.php */
+ 
+<?php 
+$conn = mysqli_connect('localhost','root','','alumni_db'); 
+if(!$conn){ 
+  die('Koneksi gagal'); 
+} 
+?> 
+ 
+ /* kode php register */
+ $password = password_hash($_POST['password'], PASSWORD_DEFAULT); 
+mysqli_query($conn, "INSERT INTO users VALUES ('','$_POST[username]','$password','$_POST[nama]','user')");
+
+/*kode login*/
+ 
+if(password_verify($password, $data['password'])){ 
+  $_SESSION['role'] = $data['role']; 
+} 
+ 
+ /* 
